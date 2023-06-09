@@ -1,0 +1,21 @@
+name: notify requested
+
+on:
+  workflow_run:
+    workflows: [ci]
+    types:
+      - requested
+
+jobs:
+  on-requested:
+    runs-on: ubuntu-latest
+    steps:
+      - name: send telegram message on push
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELE_BOT_CHANNEL }}
+          token: ${{ secrets.TELE_BOT_TOKEN }}
+          message: |
+            [${{ github.repository }}] 빌드가 [시작] 되었습니다.
+            See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
+            Author: https://github.com/${{github.actor}}

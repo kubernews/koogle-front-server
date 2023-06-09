@@ -1,0 +1,35 @@
+name: notify completed
+
+on:
+  workflow_run:
+    workflows: [ci]
+    types:
+      - completed
+
+jobs:
+  on-success:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - name: send telegram message on push
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELE_BOT_CHANNEL }}
+          token: ${{ secrets.TELE_BOT_TOKEN }}
+          message: |
+            [${{ github.repository }}] 빌드가 [성공] 했습니다!
+            See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
+            Author: https://github.com/${{github.actor}}
+  on-failure:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    steps:
+      - name: send telegram message on push
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELE_BOT_CHANNEL }}
+          token: ${{ secrets.TELE_BOT_TOKEN }}
+          message: |
+            [${{ github.repository }}] 빌드가 [실패] 했습니다...
+            See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
+            Author: https://github.com/${{github.actor}}
