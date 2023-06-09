@@ -1,5 +1,5 @@
 {
-  "name": "koogle-front",
+  "name": "koogle-front-server",
   "version": "0.1.0",
   "private": true,
   "scripts": {
