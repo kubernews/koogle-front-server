@@ -1,0 +1,9 @@
+.layout-wrap {
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  max-width: 42rem;
+  margin-left: auto;
+  margin-right: auto;
+}

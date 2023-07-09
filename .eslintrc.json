@@ -3,11 +3,13 @@
     "next/core-web-vitals",
     "plugin:import/recommended",
     "plugin:react/recommended",
+    "plugin:tailwindcss/recommended",
     "plugin:@typescript-eslint/recommended"
   ],
   "plugins": [
     "import",
     "react",
+    "tailwindcss",
     "@typescript-eslint"
   ],
   "rules": {

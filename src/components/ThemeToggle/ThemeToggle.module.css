@@ -1,0 +1,15 @@
+.rounded-border {
+  border-width: 1px;
+  border-radius: 0.3rem;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.size {
+  width: 1.5rem;
+  height: 1.5rem;
+}

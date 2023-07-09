@@ -1,0 +1,10 @@
+.flex-aside {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-gap {
+  display: flex;
+  gap: 1rem;
+}
