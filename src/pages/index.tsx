@@ -8,19 +8,25 @@ type Post = {
   content: string;
   url: string;
 };
-export const getStaticProps: GetStaticProps<{ posts: Array<Post> }> = async () => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/v1/news/list?page=1&size=10&keyword=k8s`);
-  if (res.status !== 200) {
-    throw new Error("Failed to fetch data!");
+export const getStaticProps: GetStaticProps<{ data: Array<Post> }> = async () => {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/v1/news/list?page=1&size=10&keyword=k8s`);
+    if (res.status !== 200) {
+      console.error("Failed to fetch data!");
+      return { props: { data: [] } };
+    }
+    const result: { data: Array<Post> } = await res.json();
+    return { props: result };
+  } catch {
+    console.error("Failed to fetch data!");
+    return { props: { data: [] } };
   }
-  const result: { data: Array<Post> } = await res.json();
-  return { props: { posts: result.data } };
 };
 
-export default function Article({ posts }: { posts: Array<Post> }) {
+export default function Article({ data }: { data: Array<Post> }) {
   return (
     <div>
-      {posts.map((post) => {
+      {data.map((post) => {
         return <ArticleItem key={post.kid} post={post} />;
       })}
     </div>
