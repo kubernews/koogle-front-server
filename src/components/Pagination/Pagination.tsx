@@ -38,7 +38,6 @@ const Pagination = ({
   return (
     <div>
       <button onClick={onClickPrev}>{`<`}</button>
-      Prev
       {siblingStart > 1 && (
         <div>
           <div>1</div>

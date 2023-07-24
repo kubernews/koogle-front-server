@@ -1,6 +1,6 @@
 import ArticleItem from "@/components/ArticleItem";
 import Pagination from "@/components/Pagination";
-// import { GetStaticProps } from "next";
+import { GetStaticProps } from "next";
 import { useEffect, useState } from "react";
 
 type Post = {
@@ -10,24 +10,25 @@ type Post = {
   content: string;
   url: string;
 };
-// export const getStaticProps: GetStaticProps<{
-//   data: Array<Post>;
-// }> = async () => {
-//   try {
-//     const res = await fetch(
-//       `${process.env.NEXT_PUBLIC_API_URL}/v1/news/list?page=1&size=10&keyword=k8s`
-//     );
-//     if (res.status !== 200) {
-//       console.error("Failed to fetch data!");
-//       return { props: { data: [] } };
-//     }
-//     const result: { data: Array<Post> } = await res.json();
-//     return { props: result };
-//   } catch {
-//     console.error("Failed to fetch data!");
-//     return { props: { data: [] } };
-//   }
-// };
+export const getStaticProps: GetStaticProps<{
+  data: Array<Post>;
+}> = async () => {
+  try {
+    console.log("fetch in getStaticProps");
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/v1/news/list?page=1&size=10&keyword=k8s`
+    );
+    if (res.status !== 200) {
+      console.error("Failed to fetch data!");
+      return { props: { data: [] } };
+    }
+    const result: { data: Array<Post> } = await res.json();
+    return { props: result };
+  } catch {
+    console.error("Failed to fetch data!");
+    return { props: { data: [] } };
+  }
+};
 
 type Article = {
   bizCode: string;
