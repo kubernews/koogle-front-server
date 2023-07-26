@@ -1,7 +1,9 @@
 import ArticleItem from "@/components/ArticleItem";
+import ArticleTopBar from "@/components/ArticleTopBar";
+import Pagesize from "@/components/Pagesize";
 import Pagination from "@/components/Pagination";
 import { GetStaticProps } from "next";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 type Post = {
   kid: number;
@@ -51,13 +53,14 @@ type Article = {
 
 export default function Article() {
   const [articles, setArticles] = useState<Article | null>(null);
-  const [pageSize, setPageSize] = useState(10);
+  const [pagesize, setPagesize] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
+
   useEffect(() => {
     const getData = async () => {
       try {
         const res = await fetch(
-          `/v1/news/list?page=${currentPage}&size=${pageSize}&keyword=k8s`
+          `/v1/news/list?page=${currentPage}&size=${pagesize}&keyword=k8s`
         );
         if (res.status !== 200) {
           console.error("Failed to fetch data!");
@@ -70,14 +73,19 @@ export default function Article() {
       }
     };
     getData();
-  }, [currentPage, pageSize]);
+  }, [currentPage, pagesize]);
+
+  const onChangePagesize = useCallback((pagesize: number) => {
+    setCurrentPage(1);
+    setPagesize(pagesize);
+  }, []);
 
   return (
     <div>
-      <input
-        type="number"
-        value={pageSize}
-        onChange={(e) => setPageSize(Number(e.target.value))}
+      <ArticleTopBar
+        pagesize={pagesize}
+        onChangePagesize={onChangePagesize}
+        totalItems={articles?.totalElements || 0}
       />
       {articles?.data.map((post) => {
         return <ArticleItem key={post.kid} post={post} />;
@@ -86,6 +94,7 @@ export default function Article() {
         <Pagination
           currentPage={currentPage}
           totalPages={articles.totalPages}
+          onChangePage={(page) => setCurrentPage(page)}
           onClickNext={() =>
             setCurrentPage((prev) =>
               articles.totalPages === prev ? prev : prev + 1
