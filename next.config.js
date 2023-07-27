@@ -9,6 +9,19 @@ const nextConfig = {
       },
     ];
   },
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        headers: [
+          {
+            key: "Timing-Allow-Origin",
+            value: "*",
+          },
+        ],
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;
